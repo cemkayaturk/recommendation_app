@@ -14,14 +14,23 @@ counter = 0
 while counter < 5:                 # film secme loopu
 
     sheet_number = 1
+    print("Listeyi yenilemek icin '0' tusuna basiniz")
     for x in movie_list:
         print("{} - {}".format(sheet_number, x))    #itemleri yaz
         sheet_number += 1
-    movie_input = int(input("Lutfen begendiginiz 5 filmin numarasini giriniz.."))   #input gir
-    input_list.append(movie_list[movie_input-1])    # inputlarin indexine bagli oldugu stringi liste topla
+    movie_input = int(input("Lutfen begendiginiz 5 filmin numarasini giriniz.."))  #input gir
+    if movie_input == 0:
+        random_movie = filter_df["MovieName"].sample(10)  # 10 tane rastgele item sec
 
-    del movie_list[movie_input-1]   # girilen inoutun indexini sil
-    counter += 1
+        movie_list = []  # itemlerin yazilacagi list
+        for i in random_movie:  # itemleri liste topla
+            movie_list.append(i)
+        input_list = []  # girdi listesi
+    else:
+
+        input_list.append(movie_list[movie_input-1])    # inputlarin indexine bagli oldugu stringi liste topla
+        del movie_list[movie_input-1]   # girilen inoutun indexini sil
+        counter += 1
 
 print(input_list)
 
