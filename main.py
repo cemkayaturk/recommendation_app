@@ -4,7 +4,8 @@ import pandas as pd
 
 df = pd.read_excel("movie_data.xlsx")  # Verilerimizin olduğu exceli okuyoruz..
 filter_df = df.drop(columns=['MovieYear', 'MovieRate'])  # Kolay çalışmak için filtreleme yapıyoruz..
-filter_df = filter_df[:100]
+filter_df = filter_df[:20]
+# backup_df = filter_df
 
 # KULLANICIYA SEÇİM YAPTIRTMA...
 
@@ -27,15 +28,22 @@ while counter < 5:  # 5 adet film seçtirteceğimiz için sayacı 5 e kadar sayd
     print("Listeyi yenilemek icin '0' tusuna basiniz")  # Listeyi yenilemek için rehber cümle yazıyoruz..
 
     movie_input = int(input("Lutfen begendiginiz 5 filmin numarasini giriniz.."))  # Kullanıcı girdisini alıyoruz..
+    backup_df = filter_df
+    for f in input_list:
+        backup_df = backup_df[backup_df.MovieName != f]
 
     if movie_input == 0:  # Eğer kullanıcı listeyi yenilemek isterse 0 a basıyor..
+        if counter > 0:
+            random_movie = backup_df["MovieName"].sample(10)  # MovieName den yenı 10 tane rastgele item seçiyoruz..
+            movie_list = []  # Film listesi oluşturma adımını tekrarlıyoruz..
+            for i in random_movie:
+                movie_list.append(i)
+        else:
+            random_movie = filter_df["MovieName"].sample(10)  # MovieName den yenı 10 tane rastgele item seçiyoruz..
+            movie_list = []  # Film listesi oluşturma adımını tekrarlıyoruz..
+            for i in random_movie:
+                movie_list.append(i)
 
-        random_movie = filter_df["MovieName"].sample(10)  # MovieName den yenı 10 tane rastgele item seçiyoruz..
-
-        movie_list = []  # Film listesi oluşturma adımını tekrarlıyoruz..
-        for i in random_movie:
-            movie_list.append(i)
-        input_list = []  # Girilen 0 ı silmek için girdi listesini sıfırlıyoruz..
     else:  # Eğer kullanıcı yenilemek istemezse  girdi almaya devam ediyoruz..
 
         input_list.append(movie_list[movie_input-1])  # Topladığımız girdilerin lıstedeki index numaralarına göre
