@@ -16,15 +16,15 @@ for i in random_movie:  # İtemleri listede topluyoruz..
 
 input_list = []  # Kullanıcı girdilerinin alınacağı listeyi açıyoruz..
 
-counter = 0  # Sayacı 0 a eşitliyoruz..
+counter = 0  # Sayacı 0'a eşitliyoruz..
 while counter < 5:  # 5 adet film seçtirteceğimiz için sayacı 5 e kadar saydırtacağız..
-
-    print("Listeyi yenilemek icin '0' tusuna basiniz")  # Listeyi yenilemek için rehber cümle yazıyoruz..
 
     sheet_number = 1  # Vereceğimiz film listesini numaralandırmak için bir değişken açıyoruz ve 1 e eşitliyoruz..
     for x in movie_list:  # Topladığımız itemleri konsolda kullanıcıya yazdırıyoruz..
         print("{} - {}".format(sheet_number, x))
         sheet_number += 1
+
+    print("Listeyi yenilemek icin '0' tusuna basiniz")  # Listeyi yenilemek için rehber cümle yazıyoruz..
 
     movie_input = int(input("Lutfen begendiginiz 5 filmin numarasini giriniz.."))  # Kullanıcı girdisini alıyoruz..
 
@@ -76,7 +76,7 @@ a = 0  # Sayacı 0 dan başlatıyoruz..
 while a < len(input_list):  # Sayacı listemizdeki item sayısına kadar saydırtacağız..
 
     located_row = filter_df.loc[filter_df['MovieName'] == input_list[a]]  # input_list listesindeki film isimlerini kullanarak
-    # database deki satırlarına ulaşıyoruz ve bu satırları yeni bir değişkene atıyoruz..
+    # database'deki satırlarına ulaşıyoruz ve bu satırları yeni bir değişkene atıyoruz..
 
     filter_df = filter_df[filter_df.MovieName != input_list[a]]  # Seçilen satırları databaseden çıkartıyoruz..
 
@@ -86,28 +86,28 @@ while a < len(input_list):  # Sayacı listemizdeki item sayısına kadar saydır
 
     print(list_row[1])  # Satırımızda bulunan kategoriler sütununu MovieGenre görüntülüyoruz..
 
-    for i in genre_dict:  # 'Drama''Crime' vs. dictionary mizdeki stringleri tek tek geziyoruz..
+    for i in genre_dict:  # 'Drama''Crime' vs. dictionary'mizdeki stringleri tek tek geziyoruz..
         if str(list_row[1]).__contains__(i):  # Satırdaki MovieGenre sütunu dictionary mizden aldığımız kategoriyle eşleiyorsa
             genre_dict[i] += 1  # bu kategorinin değerini 1 arttırıyoruz..
 
-    a += 1  # Sonra loopu devam ettiriyoruz..
+    a += 1  # Sonra loop'u devam ettiriyoruz..
 
 
-for x, y in genre_dict.items(): # Dictionary yi konsolda görüntülüyoruz..
+for x, y in genre_dict.items(): # Dictionary'yi konsolda görüntülüyoruz..
     print(x, y)
 
 #  DATABASE PUANLAMASI...
 
-filter_df['PointTotal'] = 0  # Filmlerimizin puanlarının toplanması için database e yeni bir sütın ekliyoruz ve değerleri sıfıra eşitliyoruz..
-for genre in genre_dict:  # Dictionary mizdeki kategorileri tek tek geziyoruz..
+filter_df['PointTotal'] = 0  # Filmlerimizin puanlarının toplanması için database'e yeni bir sütın ekliyoruz ve değerleri sıfıra eşitliyoruz..
+for genre in genre_dict:  # Dictionary'mizdeki kategorileri tek tek geziyoruz..
     col_lock = filter_df[genre]  # Kategorinin bulunduğu sütuna tutunuyoruz..
-    col_lock = col_lock * genre_dict[genre]  # Kategori sütununu dictionary mzideki katsayıyla çarpıyoruz..
+    col_lock = col_lock * genre_dict[genre]  # Kategori sütununu dictionary'mizdeki katsayıyla çarpıyoruz..
     filter_df['PointTotal'] += col_lock  # Yeni değerlerle oluşan sütunu PointTotal sütununa ekliyoruz..
 
 # TAVSİYE YAPILMASI...
 
-recommender = filter_df.sort_values(by='PointTotal',ascending=False)  # Database i PointTotal sütununa göre azalan sıraya göre sıralıyoruz..
-print(recommender.head(10))  # Sonuçları kullanıcıya gösteriyoruz..
+recommender = filter_df.sort_values(by='PointTotal',ascending=False)  # Database'i PointTotal sütununa göre azalan sıraya göre sıralıyoruz..
+print(recommender.head(25))  # Sonuçları kullanıcıya gösteriyoruz..
 
 
 
