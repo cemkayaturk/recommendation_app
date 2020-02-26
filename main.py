@@ -4,7 +4,7 @@ import pandas as pd
 
 df = pd.read_excel("movie_data.xlsx")  # Verilerimizin olduğu exceli okuyoruz..
 filter_df = df.drop(columns=['MovieYear', 'MovieRate'])  # Kolay çalışmak için filtreleme yapıyoruz..
-filter_df = filter_df.head(15) # BU KODU SİL
+#filter_df = filter_df.head(15)  # -- test için --
 
 # KULLANICIYA SEÇİM YAPTIRTMA...
 
@@ -32,19 +32,12 @@ while counter < 5:  # 5 adet film seçtirteceğimiz için sayacı 5 e kadar sayd
         copy_df = copy_df[copy_df.MovieName != f]
 
     if movie_input == 0:  # Eğer kullanıcı listeyi yenilemek isterse 0 a basıyor..
-        if counter > 0: # İlk seçimden sonra işleme girmesi için counter 0dan büyükse diyoruz..
-            random_movie = copy_df["MovieName"].sample(10)  # Seçilen filmleri çıkarttığımız datamızda MovieName den yenı 10 tane rastgele item seçiyoruz..
-            movie_list = []  # Film listesi oluşturma adımını tekrarlıyoruz..
-            for i in random_movie:
-                movie_list.append(i)
-        else: # İlk döngüde bu kod çalışıyor..
-            random_movie = filter_df["MovieName"].sample(10)  # MovieName den yenı 10 tane rastgele item seçiyoruz..
-            movie_list = []  # Film listesi oluşturma adımını tekrarlıyoruz..
-            for i in random_movie:
-                movie_list.append(i)
+        random_movie = copy_df["MovieName"].sample(10)  # Seçilen filmleri çıkarttığımız datamızda MovieName den yenı 10 tane rastgele item seçiyoruz..
+        movie_list = []  # Film listesi oluşturma adımını tekrarlıyoruz..
+        for i in random_movie:
+            movie_list.append(i)
 
     else:  # Eğer kullanıcı yenilemek istemezse  girdi almaya devam ediyoruz..
-
         input_list.append(movie_list[movie_input-1])  # Topladığımız girdilerin lıstedeki index numaralarına göre
         # listemizdeki isimlerle eşleştirip yeni listemize alıyoruz..
         del movie_list[movie_input-1]  # Seçilen filmi listeden siliyoruz..
@@ -114,7 +107,7 @@ for genre in genre_dict:  # Dictionary'mizdeki kategorileri tek tek geziyoruz..
 # TAVSİYE YAPILMASI...
 
 recommender = filter_df.sort_values(by='PointTotal',ascending=False)  # Database'i PointTotal sütununa göre azalan sıraya göre sıralıyoruz..
-print(recommender.head(25))  # Sonuçları kullanıcıya gösteriyoruz..
+print(recommender["MovieName"].head(25))  # Sonuçları kullanıcıya gösteriyoruz..
 
 
 
